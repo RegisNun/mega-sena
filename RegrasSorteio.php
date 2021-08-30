@@ -11,7 +11,7 @@ class RegrasSorteio
 
 
 
-    public function __construct($quantidadeDezenas=0, $totalJogos=0)
+    public function __construct($quantidadeDezenas = 0, $totalJogos = 0)
     {
 
         $this->quantidadeDezenas = $quantidadeDezenas;
@@ -77,14 +77,11 @@ class RegrasSorteio
     private function gerarJogo()
     {
         $arrayjogo = [];
-        while (count($arrayjogo) < $this->quantidadeDezenas) {
-            sort($arrayjogo);
+        while (count($arrayjogo) < $this->quantidadeDezenas) {           
             $gera = rand(1, 60);
-
-            $key = array_search($gera, $arrayjogo);
-            if (!$key) {
-                array_push($arrayjogo, $gera);
-            }
+            array_push($arrayjogo, $gera);
+            sort($arrayjogo);
+            $arrayjogo = array_unique($arrayjogo);
         }
 
         return $arrayjogo;
@@ -112,7 +109,7 @@ class RegrasSorteio
             $result = array_intersect($this->resultado, $jogo['Jogo']);
 
             array_push($arrayResultadoPorJogo, [
-                'Id' =>  $key,
+                'Id' =>  $key+1,
                 'Jogo' =>  implode(',', $jogo['Jogo']),
                 'Acertos' => count($result),
             ]);
@@ -125,7 +122,7 @@ class RegrasSorteio
     {
 
         $html = "<h3>Numeros Sorteados: " .  implode(',', $this->resultado) . "</h3>";
-        $html .= "<table>";
+        $html .=  "<table class='table table-condensed table-bordered table-striped table-hover'>";
         $html .= "<thead>";
         $html .= "<tr>";
         $html .= "<th>Numero do Jogo</th>";
